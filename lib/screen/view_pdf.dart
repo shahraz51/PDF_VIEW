@@ -4,31 +4,32 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:path_provider/path_provider.dart';
+
 class ViewPDf extends StatefulWidget {
-  String url;
   String date;
-  ViewPDf(this.url, this.date);
+  String url;
+  ViewPDf({required this.date,required this.url});
 
   @override
   State<ViewPDf> createState() => _ViewPDfState();
 }
 
 class _ViewPDfState extends State<ViewPDf> {
-
   String remotePDFpath = "";
-Future<File>createFileOfPdfUrl()async{
-  Completer<File> completer=Completer();
-final filename=widget.url.substring(widget.url.lastIndexOf("/")+9);
-var request=await HttpClient().getUrl(Uri.parse(widget.url));
-var response=await request.close();
-var bytes=await consolidateHttpClientResponseBytes(response);
-print("error");
-var dir=await getApplicationDocumentsDirectory();
-File file=File("${dir.path}/$filename");
-await file.writeAsBytes(bytes,flush: true);
-completer.complete(file);
-return completer.future;
-}
+  Future<File> createFileOfPdfUrl() async {
+    Completer<File> completer = Completer();
+    final filename = widget.url.substring(widget.url.lastIndexOf("/") + 9);
+    var request = await HttpClient().getUrl(Uri.parse(widget.url));
+    var response = await request.close();
+    var bytes = await consolidateHttpClientResponseBytes(response);
+    var dir = await getApplicationDocumentsDirectory();
+    File file = File("${dir.path}/$filename");
+
+    await file.writeAsBytes(bytes, flush: true);
+    completer.complete(file);
+    return completer.future;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -51,8 +52,6 @@ return completer.future;
       ),
     );
   }
-
-
 }
 
 class RenderPdf extends StatefulWidget {

@@ -59,7 +59,7 @@ class _HomepageState extends State<Homepage> {
             return ListView.builder(
               itemCount: datasnap.length,
               itemBuilder: (ctx, i) =>
-                  ViewPDf(datasnap[i]["Url"], datasnap[i]["Date"]),
+                  ViewPDf(date: datasnap[i]["Date"], url: datasnap[i]["Url"]),
             );
           },
         ),
